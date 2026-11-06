@@ -31,6 +31,26 @@ class GerenciadorDeTarefas:
             return [t for t in self._tarefas if not t.concluida]
         return list(self._tarefas)
 
+    def concluir(self, id_tarefa):
+        """Marca a tarefa como concluída e a devolve."""
+        tarefa = self._buscar(id_tarefa)
+        tarefa.concluida = True
+        self._salvar()
+        return tarefa
+
+    def remover(self, id_tarefa):
+        """Remove a tarefa da lista e a devolve."""
+        tarefa = self._buscar(id_tarefa)
+        self._tarefas.remove(tarefa)
+        self._salvar()
+        return tarefa
+
+    def _buscar(self, id_tarefa):
+        for tarefa in self._tarefas:
+            if tarefa.id == id_tarefa:
+                return tarefa
+        raise KeyError(f"Tarefa {id_tarefa} não encontrada.")
+
     def _proximo_id(self):
         return max((t.id for t in self._tarefas), default=0) + 1
 
